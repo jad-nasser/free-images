@@ -1,0 +1,37 @@
+{
+  "name": "free-images",
+  "version": "1.0.0",
+  "description": "<br>\r <br>",
+  "main": "server.ts",
+  "scripts": {
+    "start": "nodemon --exec ts-node server.ts",
+    "unit-testing": "mocha tests/unit-tests --watch",
+    "integration-testing": "mocha tests/unit-tests --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jad-nasser/free-images.git"
+  },
+  "author": "Jad Nasser",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/jad-nasser/free-images/issues"
+  },
+  "homepage": "https://github.com/jad-nasser/free-images#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/node": "^18.0.4",
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
+    "sinon": "^14.0.0",
+    "supertest": "^6.2.4"
+  }
+}
