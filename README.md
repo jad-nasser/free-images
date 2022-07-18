@@ -135,7 +135,7 @@ Created by the signed in users, stored in the server.
     - **users.test.ts**
     - **images.test.ts**
 - **app.ts**: its the main router that the server run and it includes all the two routers mentioned above.
-- **connect-to-db.ts**: used by the server to connect to a database.
+- **dbConnection.ts**: used by the server to connect to a database.
 - **server.ts**: the server file itself.
 - **client**: contains the client side code.
   - **cypress**: contains e2e tests.
