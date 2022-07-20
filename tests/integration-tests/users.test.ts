@@ -32,7 +32,7 @@ before(async function () {
   //creating a token for this user
   token = await new Promise((resolve, reject) => {
     jwt.sign(
-      { email: user.email, id: foundUser._id },
+      { email: user.email, id: foundUser?._id },
       process.env.TOKEN_SECRET as string,
       { expiresIn: Date.now() + 1 * 1000 * 64 * 64 * 24 },
       (err, newToken) => {

@@ -3,6 +3,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
+import usersRouter from "./routers/users";
+import imagesRouter from "./routers/images";
 
 //initialising app
 let app = express();
@@ -13,6 +15,8 @@ app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
 //routers
+app.use("/users", usersRouter);
+app.use("/images", imagesRouter);
 
 //set static folders
 app.use(express.static(path.join(__dirname, "public")));

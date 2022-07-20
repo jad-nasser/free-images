@@ -7,6 +7,13 @@ import usersDBController from "../../database-controllers/users";
 import imagesDBController from "../../database-controllers/images";
 import { connect, disconnect } from "../../dbConnection";
 
+interface IImage {
+  name: string;
+  filePath: string;
+  resolution: string;
+  userId: string | undefined;
+}
+
 //some useful variables
 let user = {
   firstName: "test",
@@ -15,19 +22,19 @@ let user = {
   password: "Q1!wasdf",
 };
 let token: string | undefined;
-let image1 = {
+let image1: IImage = {
   name: "test-image1",
   filePath: "blabla.jpg",
   resolution: "2500*1500",
   userId: "",
 };
-let image2 = {
+let image2: IImage = {
   name: "test-image2",
   filePath: "blabla2.jpg",
   resolution: "2500*1500",
   userId: "",
 };
-let image2Id: string | undefined;
+let image2Id: undefined | string;
 
 //hooks
 before(async function () {
@@ -38,12 +45,12 @@ before(async function () {
   //getting user
   let foundUser = await usersDBController.getUser(user.email);
   //settings the userId's of the mock images
-  image1.userId = foundUser._id;
-  image2.userId = foundUser._id;
+  image1.userId = foundUser?._id.toString();
+  image2.userId = foundUser?._id.toString();
   //creating a token for the found user
   token = await new Promise((resolve, reject) => {
     jwt.sign(
-      { email: user.email, id: foundUser._id },
+      { email: user.email, id: foundUser?._id },
       process.env.TOKEN_SECRET as string,
       { expiresIn: Date.now() + 1 * 1000 * 64 * 64 * 24 },
       (err, newToken) => {
@@ -53,11 +60,11 @@ before(async function () {
     );
   });
   //creating the images that will be used in some tests
-  await imagesDBController.createImage(image1);
-  await imagesDBController.createImage(image2);
+  await imagesDBController.createImage(image1 as any);
+  await imagesDBController.createImage(image2 as any);
   //getting image2 id
   let images = await imagesDBController.getImages({ name: "test-image2" });
-  image2Id = images[0]._id;
+  image2Id = images[0]._id.toString();
 });
 after(async function () {
   await usersDBController.clearTable();
