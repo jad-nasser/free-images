@@ -5,7 +5,6 @@ interface IImage {
   resolution: string;
   userId: string;
   filePath: string;
-  numberOfDownloads: number;
 }
 interface ISearchInfo {
   name?: string;
@@ -45,6 +44,8 @@ const incrementImage = (id: string) =>
 
 const deleteImage = (id: string) => Images.deleteOne({ _id: id });
 
+const deleteAllUserImages = (userId: string) => Images.deleteMany({ userId });
+
 const clearTable = () => Images.deleteMany();
 
 export default {
@@ -53,5 +54,6 @@ export default {
   updateImage,
   incrementImage,
   deleteImage,
+  deleteAllUserImages,
   clearTable,
 };

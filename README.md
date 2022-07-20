@@ -33,6 +33,7 @@ This website provides a free images. The signed in users can add, edit, and dele
 - **dotenv**: for storing some enviroment variables.
 - **Json Web Token**: tokens for user login stored in httpOnly cookies in user's browser.
 - **Lodash**
+- **image-size**: used to get the image file resolution.
 - **Mocha**: test framework.
 - **chai**: for tests assertions.
 - **sinon**: used for mocking while unit testing.
@@ -137,6 +138,7 @@ Created by the signed in users, stored in the server.
 - **app.ts**: its the main router that the server run and it includes all the two routers mentioned above.
 - **dbConnection.ts**: used by the server to connect to a database.
 - **server.ts**: the server file itself.
+- **imageSize.ts**: a file that contains a function to calculate the image resolution using image-size dependency.
 - **client**: contains the client side code.
   - **cypress**: contains e2e tests.
     - **e2e**

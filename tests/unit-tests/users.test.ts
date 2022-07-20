@@ -9,20 +9,16 @@ import jwt from "jsonwebtoken";
 
 let token: string | undefined;
 
-interface dynamicObject {
-  [key: string]: any;
-}
-
 //creating mock request and response
-const request: dynamicObject = {
+const request = {
   body: {},
   cookies: {},
-};
-const userRequest: dynamicObject = {
+} as any;
+const userRequest = {
   body: {},
   user: { email: "testtest@email.com", id: "10" },
   cookies: {},
-};
+} as any;
 let data: any;
 const response = {
   statusCode: 200,
@@ -42,7 +38,7 @@ const response = {
   cookie: function () {
     return this;
   },
-};
+} as any;
 
 before(async function () {
   token = await new Promise((resolve, reject) => {
@@ -103,7 +99,9 @@ describe("Testing users controller", function () {
       //stubbing the database controller method getUser()
       const getUserStub = sinon
         .stub(usersDBController, "getUser")
-        .returns(Promise.resolve({ _id: "10", email: "testtest@email.com" }));
+        .returns(
+          Promise.resolve({ _id: "10", email: "testtest@email.com" }) as any
+        );
       //calling the tested method
       await usersController.createUser(req, res);
       //assertions
@@ -140,10 +138,10 @@ describe("Testing users controller", function () {
       //stubbing the database controller methods
       const getUserStub = sinon
         .stub(usersDBController, "getUser")
-        .returns(Promise.resolve(null));
+        .returns(Promise.resolve(null) as any);
       const createUserStub = sinon
         .stub(usersDBController, "createUser")
-        .returns(Promise.resolve(true));
+        .returns(Promise.resolve(true) as any);
       //calling the tested method
       await usersController.createUser(req, res);
       //assertions
@@ -181,7 +179,7 @@ describe("Testing users controller", function () {
           _id: "10",
           email: "testtest@email.com",
           password: "Q2!wasdf",
-        })
+        }) as any
       );
       //calling the tested method
       await usersController.signIn(req, res);
@@ -205,7 +203,7 @@ describe("Testing users controller", function () {
           _id: "10",
           email: "testtest@email.com",
           password: "Q1!wasdf",
-        })
+        }) as any
       );
       //calling the tested method
       await usersController.signIn(req, res);
@@ -266,7 +264,7 @@ describe("Testing users controller", function () {
           _id: 10,
           email: "testtest@email.com",
           password: "Q1!wasdf",
-        })
+        }) as any
       );
       //calling the tested method
       await usersController.getUserInfo(req, res);
@@ -312,7 +310,7 @@ describe("Testing users controller", function () {
       //stubbing the database controller method getUser
       const getUserStub = sinon
         .stub(usersDBController, "getUser")
-        .returns({ _id: "10", email: "testtest@email.com" });
+        .returns({ _id: "10", email: "testtest@email.com" } as any);
       //calling the tested method
       await usersController.updateUser(req, res);
       //assertions
@@ -357,7 +355,7 @@ describe("Testing users controller", function () {
         _id: "10",
         email: "testtest@email.com",
         password: "Q3!wasdf",
-      });
+      } as any);
       //calling the tested method
       await usersController.updateUser(req, res);
       //assertions
@@ -376,7 +374,7 @@ describe("Testing users controller", function () {
       //stubbing the database method updateUser
       const updateUserStub = sinon
         .stub(usersDBController, "updateUser")
-        .returns(true);
+        .returns(true as any);
       //calling the tested method
       await usersController.updateUser(req, res);
       //assertions
@@ -397,13 +395,13 @@ describe("Testing users controller", function () {
       //stubbing the database methods
       const deleteUserStub = sinon
         .stub(usersDBController, "deleteUser")
-        .returns(true);
+        .returns(true as any);
       const deleteAllUserImagesStub = sinon
         .stub(imagesDBController, "deleteAllUserImages")
-        .returns(true);
+        .returns(true as any);
       const getImagesStub = sinon
         .stub(imagesDBController, "getImages")
-        .returns([]);
+        .returns([] as any);
       //calling the tested method
       await usersController.deleteUser(req, res);
       //assertions

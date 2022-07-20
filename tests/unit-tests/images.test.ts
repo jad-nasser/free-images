@@ -4,26 +4,23 @@ import imagesDBController from "../../database-controllers/images";
 import _ from "lodash";
 import { expect } from "chai";
 import sinon from "sinon";
-import fs from "fs";
-
-interface dynamicObject {
-  [key: string]: any;
-}
+import fs from "fs/promises";
+import imageSize from "../../imageSize";
 
 //creating mock request and response
-const request: dynamicObject = {
+const request = {
   body: {},
   query: {},
   user: { email: "testtest@email.com", id: "10" },
   cookies: {},
-};
-const requestWithFile: dynamicObject = {
+} as any;
+const requestWithFile = {
   body: {},
   query: {},
   user: { email: "testtest@email.com", id: "10" },
   cookies: {},
   file: { path: "test.jpg" },
-};
+} as any;
 let data: any;
 const response = {
   statusCode: 200,
@@ -46,7 +43,7 @@ const response = {
   download: function () {
     return this;
   },
-};
+} as any;
 
 beforeEach(function () {
   sinon.restore();
@@ -73,14 +70,18 @@ describe("Testing images controller", function () {
       let req = _.cloneDeep(requestWithFile);
       req.body = { name: "test" };
       let res = _.cloneDeep(response);
-      //mocking the database method createImage();
+      //mocking the database method createImage() and sizeOf() that calculate the image resolution
       const createImageStub = sinon
         .stub(imagesDBController, "createImage")
-        .returns(true);
+        .returns(true as any);
+      const sizeOfStub = sinon
+        .stub(imageSize, "sizeOf")
+        .returns({ width: 1000, height: 500 } as any);
       //calling the tested method
       await imagesController.createImage(req, res);
       //assertions
       expect(createImageStub.calledOnce).to.be.true;
+      expect(sizeOfStub.calledOnce).to.be.true;
       expect(res.statusCode).to.be.equal(200);
       expect(res.data).to.be.equal("Image successfully created");
     });
@@ -107,7 +108,7 @@ describe("Testing images controller", function () {
       //mocking the database method getImages();
       const getImagesStub = sinon
         .stub(imagesDBController, "getImages")
-        .returns([]);
+        .returns([] as any);
       //calling the tested method
       await imagesController.downloadImage(req, res);
       //assertions
@@ -151,7 +152,7 @@ describe("Testing images controller", function () {
       //stubbing the database method getImages
       const getImagesStub = sinon
         .stub(imagesDBController, "getImages")
-        .returns([]);
+        .returns([] as any);
       //calling the tested method
       await imagesController.updateImage(req, res);
       //assertions
@@ -169,7 +170,7 @@ describe("Testing images controller", function () {
       //stubbing the database method getImages
       const getImagesStub = sinon
         .stub(imagesDBController, "getImages")
-        .returns([{ name: "test2", userId: "20" }]);
+        .returns([{ name: "test2", userId: "20" }] as any);
       //calling the tested method
       await imagesController.updateImage(req, res);
       //assertions
@@ -187,10 +188,10 @@ describe("Testing images controller", function () {
       //stubbing the database methods
       const getImagesStub = sinon
         .stub(imagesDBController, "getImages")
-        .returns([{ name: "test2", userId: "10" }]);
+        .returns([{ name: "test2", userId: "10" }] as any);
       const updateImageStub = sinon
         .stub(imagesDBController, "updateImage")
-        .returns(true);
+        .returns(true as any);
       //calling the tested method
       await imagesController.updateImage(req, res);
       //assertions
@@ -222,7 +223,7 @@ describe("Testing images controller", function () {
       //stubbing the database method getImages
       const getImagesStub = sinon
         .stub(imagesDBController, "getImages")
-        .returns([]);
+        .returns([] as any);
       //calling the tested method
       await imagesController.deleteImage(req, res);
       //assertions
@@ -239,7 +240,7 @@ describe("Testing images controller", function () {
       //stubbing the database method getImages
       const getImagesStub = sinon
         .stub(imagesDBController, "getImages")
-        .returns([{ name: "test", userId: "20", _id: "10" }]);
+        .returns([{ name: "test", userId: "20", _id: "10" }] as any);
       //calling the tested method
       await imagesController.deleteImage(req, res);
       //assertions
@@ -258,10 +259,10 @@ describe("Testing images controller", function () {
         .stub(imagesDBController, "getImages")
         .returns([
           { name: "test", userId: "10", _id: "10", filePath: "blablabla" },
-        ]);
+        ] as any);
       const deleteImageStub = sinon
         .stub(imagesDBController, "deleteImage")
-        .returns(true);
+        .returns(true as any);
       const unlinkStub = sinon.stub(fs, "unlink");
       //calling the tested method
       await imagesController.deleteImage(req, res);
