@@ -5,8 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "start": "nodemon --exec ts-node server.ts",
-    "unit-testing": "mocha tests/unit-tests --watch",
-    "integration-testing": "mocha tests/unit-tests --watch"
+    "unit-testing": "nodemon --exec mocha --require ts-node/register tests/unit-tests/users.test.ts tests/unit-tests/images.test.ts",
+    "integration-testing": "nodemon --exec mocha  --require ts-node/register tests/integration-tests/users.test.ts tests/integration-tests/images.test.ts"
   },
   "repository": {
     "type": "git",
@@ -46,6 +46,7 @@
     "chai": "^4.3.6",
     "mocha": "^10.0.0",
     "sinon": "^14.0.0",
-    "supertest": "^6.2.4"
+    "supertest": "^6.2.4",
+    "ts-node": "^10.9.1"
   }
 }

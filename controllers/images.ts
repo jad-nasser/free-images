@@ -14,7 +14,7 @@ interface IImage {
   filePath: string;
 }
 interface ISearchInfo {
-  name?: string;
+  name?: RegExp;
   userId?: string;
   _id?: string;
 }
@@ -58,13 +58,14 @@ const uploadImage = (req: Request, res: Response, next: NextFunction) => {
 
 const downloadImage = async (req: Request, res: Response) => {
   //checking if the image id exists in the request
-  if (!req.body.id) return res.status(404).send("Image id not found");
+  if (!req.query.id) return res.status(404).send("Image id not found");
+  let imageId = req.query.id as string;
   //getting the image from the database, incrementing its numberOfDownloads field and download it
   try {
-    let foundImages = await imagesDBController.getImages({ _id: req.body.id });
+    let foundImages = await imagesDBController.getImages({ _id: imageId });
     if (foundImages.length === 0)
       return res.status(404).send("Image not exists");
-    await imagesDBController.incrementImage(req.body.id);
+    await imagesDBController.incrementImage(imageId);
     let foundImage = foundImages[0];
     res.download(foundImage.filePath);
     return true;
@@ -79,8 +80,13 @@ const createImage = async (req: Request, res: Response): Promise<Response> => {
   //checking if the inputs are found and gathering them
   if (!req.body.name) return res.status(404).send("Image name not found");
   if (!req.file) return res.status(404).send("Image file not found");
-  let resolution = imageSize.sizeOf(req.file.buffer);
-  const resolutionText = resolution.width + "x" + resolution.height;
+  let resolutionText = "";
+  try {
+    let resolution = imageSize.sizeOf(req.file.path);
+    resolutionText = resolution.width + "x" + resolution.height;
+  } catch (error) {
+    return res.status(500).json(error);
+  }
   let imageInfo: IImage = {
     name: req.body.name,
     userId: (req as any).user.id,
@@ -101,7 +107,7 @@ const createImage = async (req: Request, res: Response): Promise<Response> => {
 const getImages = async (req: Request, res: Response): Promise<Response> => {
   let searchInfo: ISearchInfo = {};
   let sortBy: string | undefined;
-  if (req.query.name) searchInfo.name = req.query.name as string;
+  if (req.query.name) searchInfo.name = new RegExp(req.query.name as string);
   if ((req as any).user) searchInfo.userId = (req as any).user.id;
   if (req.query.id) searchInfo._id = req.query.id as string;
   if (req.query.sortBy) sortBy = req.query.sortBy as string;
@@ -124,8 +130,13 @@ const updateImage = async (req: Request, res: Response): Promise<Response> => {
     if (req.body.updateInfo.name) updateInfo.name = req.body.updateInfo.name;
   }
   if (req.file) {
-    let resolution = imageSize.sizeOf(req.file.buffer);
-    let resolutionText = resolution.width + "x" + resolution.height;
+    let resolutionText = "";
+    try {
+      let resolution = imageSize.sizeOf(req.file.path);
+      resolutionText = resolution.width + "x" + resolution.height;
+    } catch (error) {
+      return res.status(500).json(error);
+    }
     updateInfo.filePath = req.file.path;
     updateInfo.resolution = resolutionText;
   }
@@ -164,7 +175,7 @@ const deleteImage = async (req: Request, res: Response): Promise<Response> => {
   } catch (error) {
     return res.status(500).json(error);
   }
-  return res.status(200).send("Image successfully updated");
+  return res.status(200).send("Image successfully deleted");
 };
 
 //--------------------------------------------------------------------------------------------------

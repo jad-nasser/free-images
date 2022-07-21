@@ -1,4 +1,6 @@
 //importing modules
+import dotenv from "dotenv";
+dotenv.config();
 import request from "supertest";
 import app from "../../app";
 import { expect } from "chai";
@@ -36,43 +38,46 @@ let image2: IImage = {
 };
 let image2Id: undefined | string;
 
-//hooks
-before(async function () {
-  //connecting to the test database
-  await connect("free-images-test");
-  //creating the user that will be used in most tests
-  await usersDBController.createUser(user);
-  //getting user
-  let foundUser = await usersDBController.getUser(user.email);
-  //settings the userId's of the mock images
-  image1.userId = foundUser?._id.toString();
-  image2.userId = foundUser?._id.toString();
-  //creating a token for the found user
-  token = await new Promise((resolve, reject) => {
-    jwt.sign(
-      { email: user.email, id: foundUser?._id },
-      process.env.TOKEN_SECRET as string,
-      { expiresIn: Date.now() + 1 * 1000 * 64 * 64 * 24 },
-      (err, newToken) => {
-        if (err) reject(err);
-        else resolve(newToken);
-      }
-    );
-  });
-  //creating the images that will be used in some tests
-  await imagesDBController.createImage(image1 as any);
-  await imagesDBController.createImage(image2 as any);
-  //getting image2 id
-  let images = await imagesDBController.getImages({ name: "test-image2" });
-  image2Id = images[0]._id.toString();
-});
-after(async function () {
-  await usersDBController.clearTable();
-  await imagesDBController.clearTable();
-  await disconnect();
-});
-
 describe("Testing images router", function () {
+  //hooks
+  before(async function () {
+    //connecting to the test database
+    await connect("free-images-test");
+    //creating the user that will be used in most tests
+    await usersDBController.createUser(user);
+    //getting user
+    let foundUser = await usersDBController.getUser(user.email);
+    //settings the userId's of the mock images
+    image1.userId = foundUser?._id.toString();
+    image2.userId = foundUser?._id.toString();
+    //creating a token for the found user
+    token = await new Promise((resolve, reject) => {
+      jwt.sign(
+        { email: user.email, id: foundUser?._id },
+        process.env.TOKEN_SECRET as string,
+        { expiresIn: Date.now() + 1 * 1000 * 64 * 64 * 24 },
+        (err, newToken) => {
+          if (err) reject(err);
+          else resolve(newToken);
+        }
+      );
+    });
+    //creating the images that will be used in some tests
+    await imagesDBController.createImage(image1 as any);
+    await imagesDBController.createImage(image2 as any);
+    //getting image2 id
+    let images = await imagesDBController.getImages({
+      name: new RegExp("test-image2"),
+    });
+    image2Id = images[0]._id.toString();
+  });
+
+  after(async function () {
+    await usersDBController.clearTable();
+    await imagesDBController.clearTable();
+    await disconnect();
+  });
+
   //testing create-image
   it("Testing images/create-image it should successfully creating an image item", async function () {
     const response = await request(app)
@@ -92,9 +97,9 @@ describe("Testing images router", function () {
       //searching for that image that has a name test-image1
       //but since it contains regex we can only put a part from the name to get the image
       .query({ name: "1" });
-    let responseData = response.text as any;
-    expect(responseData.images.length).to.be.equal(1);
-    expect(responseData.images[0].name).to.be.equal("test-image1");
+    //assertions
+    expect(response.body.images.length).to.be.equal(1);
+    expect(response.body.images[0].name).to.be.equal("test-image1");
   });
 
   //testing update-image
@@ -111,11 +116,18 @@ describe("Testing images router", function () {
 
   //testing delete-image
   it("Testing images/delete-image it should successfully delete an image", async function () {
+    //getting the image item id that is created in the first test
+    const foundImages = await imagesDBController.getImages({
+      name: new RegExp("test-image3"),
+    });
+    let imageId = foundImages[0]._id;
+    //sending the request
     const response = await request(app)
       .delete("/images/delete-image")
       .set("Accept", "application/json")
       .set("Cookie", ["token=" + token])
-      .send({ id: image2Id });
+      .send({ id: imageId });
+    //assertions
     expect(response.statusCode).to.be.equal(200);
   });
 });

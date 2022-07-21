@@ -195,7 +195,7 @@ const updateUser = async (req: Request, res: Response): Promise<Response> => {
         foundUser.password
       );
       if (!compareResult)
-        return res.status(404).send("Old password is not correct");
+        return res.status(404).send("Old password not correct");
       //hashing the new password
       const hashedPassword = await bcrypt.hash(updateData.newPassword, 10);
       updateInfo.password = hashedPassword;
@@ -203,11 +203,20 @@ const updateUser = async (req: Request, res: Response): Promise<Response> => {
       return res.status(500).json(error);
     }
   }
+  //in case the user wants to update the email
   if (updateData.email) {
     if (!emailRegex.test(updateData.email))
-      return res.status(404).send("Email not valid");
+      return res.status(404).send("New email not valid");
+    //checking if the email is already exists
+    try {
+      let foundUser = await usersDBController.getUser(updateData.email);
+      if (foundUser) return res.status(404).send("New email already exists");
+    } catch (error) {
+      return res.status(500).json(error);
+    }
     updateInfo.email = updateData.email;
   }
+  //checking if there is no provided update info
   if (_.isEmpty(updateInfo))
     return res.status(404).send("No update info provided");
   //updating the user

@@ -1,4 +1,6 @@
 //importing modules
+import dotenv from "dotenv";
+dotenv.config();
 import imagesController from "../../controllers/images";
 import imagesDBController from "../../database-controllers/images";
 import _ from "lodash";
@@ -45,17 +47,20 @@ const response = {
   },
 } as any;
 
-beforeEach(function () {
-  sinon.restore();
-});
-
 //----------------------------------------------------------------------------
 
 describe("Testing images controller", function () {
+  //hook
+  beforeEach(function () {
+    sinon.restore();
+  });
+
+  //-----------------------------------------------------------------------------------------
+
   //Testing createImage
   describe("Testing createImage()", function () {
     //testing with empty request body
-    test('Testing with empty request body it should return a message "Image name not found"', async function () {
+    it('Testing with empty request body it should return a message "Image name not found"', async function () {
       let req = _.cloneDeep(request);
       let res = _.cloneDeep(response);
       //calling the tested method
@@ -66,7 +71,7 @@ describe("Testing images controller", function () {
     });
 
     //testing when everything is done correctly
-    test('Testing when everything is done correctly "Image successfully created"', async function () {
+    it('Testing when everything is done correctly "Image successfully created"', async function () {
       let req = _.cloneDeep(requestWithFile);
       req.body = { name: "test" };
       let res = _.cloneDeep(response);
@@ -87,10 +92,12 @@ describe("Testing images controller", function () {
     });
   });
 
+  //--------------------------------------------------------------------------------------
+
   //testing downloadImage
   describe("Testing downloadImage()", function () {
     //Testing without provinding the image id
-    test('Testing without providing the image id it should return a message "Image id not found"', async function () {
+    it('Testing without providing the image id it should return a message "Image id not found"', async function () {
       let req = _.cloneDeep(request);
       let res = _.cloneDeep(response);
       //calling the tested method
@@ -101,7 +108,7 @@ describe("Testing images controller", function () {
     });
 
     //Testing when assumming that the requested image is not exist
-    test('Testing when requesting a not exist image it should return a message "Image not exists"', async function () {
+    it('Testing when requesting a not exist image it should return a message "Image not exists"', async function () {
       let req = _.cloneDeep(request);
       req.query = { id: "10" };
       let res = _.cloneDeep(response);
@@ -118,10 +125,12 @@ describe("Testing images controller", function () {
     });
   });
 
+  //----------------------------------------------------------------------------------------
+
   //testing updateImage
   describe("Testing updateImage()", function () {
     //testing without providing the image id
-    test('Testing without providing the image id it should return a message "Image id not found"', async function () {
+    it('Testing without providing the image id it should return a message "Image id not found"', async function () {
       let req = _.cloneDeep(request);
       let res = _.cloneDeep(response);
       //calling the tested method
@@ -132,7 +141,7 @@ describe("Testing images controller", function () {
     });
 
     //testing without providing whats to update
-    test('Testing without providing whats to update it should return a message "Nothing to update"', async function () {
+    it('Testing without providing whats to update it should return a message "Nothing to update"', async function () {
       let req = _.cloneDeep(request);
       req.body = { id: "10" };
       let res = _.cloneDeep(response);
@@ -144,7 +153,7 @@ describe("Testing images controller", function () {
     });
 
     //testing when assuming that the image is not exist
-    test('Testing when assuming that the image is not exists it should return a message "Image not exists"', async function () {
+    it('Testing when assuming that the image is not exists it should return a message "Image not exists"', async function () {
       let req = _.cloneDeep(request);
       req.body = { id: "10", updateInfo: { name: "test2" } };
       req.body.updateInfo = JSON.stringify(req.body.updateInfo);
@@ -162,7 +171,7 @@ describe("Testing images controller", function () {
     });
 
     //testing when trying to update an image that it is not belongs to the user
-    test('Testing when trying to update an image that it is not belongs to the user it should return a message "This image is belongs to other user"', async function () {
+    it('Testing when trying to update an image that it is not belongs to the user it should return a message "This image is belongs to other user"', async function () {
       let req = _.cloneDeep(request);
       req.body = { id: "10", updateInfo: { name: "test2" } };
       req.body.updateInfo = JSON.stringify(req.body.updateInfo);
@@ -180,7 +189,7 @@ describe("Testing images controller", function () {
     });
 
     //testing a successfull image name update
-    test('Testing a successfull image name update it should return a message "Image successfully updated"', async function () {
+    it('Testing a successfull image name update it should return a message "Image successfully updated"', async function () {
       let req = _.cloneDeep(request);
       req.body = { id: "10", updateInfo: { name: "test2" } };
       req.body.updateInfo = JSON.stringify(req.body.updateInfo);
@@ -202,10 +211,12 @@ describe("Testing images controller", function () {
     });
   });
 
+  //---------------------------------------------------------------------------------------------
+
   //testing deleteImage
   describe("Testing deleteImage()", function () {
     //testing without providing the image id
-    test('Testing without providing the image id it should return a message "Image id not found"', async function () {
+    it('Testing without providing the image id it should return a message "Image id not found"', async function () {
       let req = _.cloneDeep(request);
       let res = _.cloneDeep(response);
       //calling the tested method
@@ -216,7 +227,7 @@ describe("Testing images controller", function () {
     });
 
     //testing when assuming that the image is not exist
-    test('Testing when assuming that the image is not exists it should return a message "Image not exists"', async function () {
+    it('Testing when assuming that the image is not exists it should return a message "Image not exists"', async function () {
       let req = _.cloneDeep(request);
       req.body = { id: "10" };
       let res = _.cloneDeep(response);
@@ -233,7 +244,7 @@ describe("Testing images controller", function () {
     });
 
     //testing when trying to delete an image that it is not belongs to the user
-    test('Testing when trying to delete an image that it is not belongs to the user it should return a message "This image is belongs to other user"', async function () {
+    it('Testing when trying to delete an image that it is not belongs to the user it should return a message "This image is belongs to other user"', async function () {
       let req = _.cloneDeep(request);
       req.body = { id: "10" };
       let res = _.cloneDeep(response);
@@ -250,7 +261,7 @@ describe("Testing images controller", function () {
     });
 
     //testing a successfull image delete
-    test('Testing a successfull image delete it should return a message "Image successfully deleted"', async function () {
+    it('Testing a successfull image delete it should return a message "Image successfully deleted"', async function () {
       let req = _.cloneDeep(request);
       req.body = { id: "10" };
       let res = _.cloneDeep(response);

@@ -7,7 +7,7 @@ interface IImage {
   filePath: string;
 }
 interface ISearchInfo {
-  name?: string;
+  name?: RegExp;
   userId?: string;
   _id?: string;
 }
