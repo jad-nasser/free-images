@@ -173,7 +173,8 @@ Created by the signed in users, stored in the server.
         - **User.ts**: includes Signed in user-navbar component and an outlet for Signed in users pages.
     - **functions**: includes some functions used by the components
       - **checkLogin.ts**: contains a function that checks the login status of a user and according to that status it checks if the user is in the correct page type and if the user is not in the correct page type the user will be redirected to another page.
-      - **getAllSearchParams**: returns all search params in an object.
+      - **getAllSearchParams.ts**: returns all search params in an object.
+      - **testRender.ts**: render a components while testing with providers.
     - **redux**: contains all redux store, actions, and reducer
       - **themeSlice.ts**: reducer and actions for website theme change
       - **store.ts**: the global store of the whole app
