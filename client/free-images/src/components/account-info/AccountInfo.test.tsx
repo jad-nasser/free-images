@@ -1,12 +1,8 @@
 import testRender from "../../functions/testRender";
-import axios from "axios";
 import { screen } from "@testing-library/react";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
 import AccountInfo from "./AccountInfo";
-
-axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
-axios.defaults.withCredentials = true;
 
 //creating mock server
 const server = setupServer(

@@ -3,9 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import AccountSettings from "./components/account-settings/AccountSettings";
 
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+axios.defaults.withCredentials = true;
+
 function App() {
-  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
-  axios.defaults.withCredentials = true;
   return (
     <div>
       <Routes>
