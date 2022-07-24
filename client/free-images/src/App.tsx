@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import AccountInfo from "./components/account-info/AccountInfo";
+import AccountSettingsRoute from "./components/route-components/AccountSettingsRoute";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -23,8 +24,8 @@ function App() {
       <Routes>
         <Route path="/"></Route>
         <Route path="/user">
-          <Route path="account-settings" element={<AccountInfo />}>
-            <Route path="account-info" />
+          <Route path="account-settings" element={<AccountSettingsRoute />}>
+            <Route path="account-info" element={<AccountInfo />} />
           </Route>
         </Route>
       </Routes>
