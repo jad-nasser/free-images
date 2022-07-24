@@ -63,7 +63,7 @@ describe("e2e testing", () => {
   it('A non signed in user should search for image called "test-image1" and view it', () => {
     //searching for the image sice the search contains regex we will only type "1"
     cy.visit("http://localhost:3000/home");
-    cy.get('input[placeholder="Image Name"]').type("1");
+    cy.get('input[placeholder="Search Images"]').type("1");
     cy.get('button:contains("Search")').click();
     cy.wait(2000);
     //viewing the image

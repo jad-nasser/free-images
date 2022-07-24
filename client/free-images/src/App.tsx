@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import AccountInfo from "./components/account-info/AccountInfo";
 import AccountSettingsRoute from "./components/route-components/AccountSettingsRoute";
+import Default from "./components/route-components/Default";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -22,7 +23,7 @@ function App() {
   return (
     <div className={"app bg-" + themeMode + " text-" + textColor}>
       <Routes>
-        <Route path="/"></Route>
+        <Route path="/" element={<Default />}></Route>
         <Route path="/user">
           <Route path="account-settings" element={<AccountSettingsRoute />}>
             <Route path="account-info" element={<AccountInfo />} />
