@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import checkLogin from "../../functions/checkLogin";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-interface LocalState {
-  theme: {
-    mode: string;
-    color: string;
-  };
-}
 
 const AccountInfo = () => {
   const [userInfo, setUserInfo] = useState({
@@ -18,9 +10,6 @@ const AccountInfo = () => {
     email: null,
   });
   const navigate = useNavigate();
-  const themeMode = useSelector((state: LocalState) => state.theme.mode);
-  let textColor = "dark";
-  if (themeMode === "dark") textColor = "light";
   useEffect(() => {
     const asyncFn = async () => {
       try {
@@ -31,17 +20,13 @@ const AccountInfo = () => {
         //getting the data from the response
         setUserInfo(response.data.userInfo);
       } catch (error) {
-        //console.log(error);
+        console.log(error);
       }
     };
     asyncFn();
   }, [navigate]);
   return (
-    <div
-      className={
-        "d-flex justify-content-center text-" + textColor + " bg-" + themeMode
-      }
-    >
+    <div className="d-flex justify-content-center">
       <div className="mt-4">
         <div className="mb-2">
           <span className="me-2">

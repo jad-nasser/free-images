@@ -5,8 +5,9 @@ import { rest } from "msw";
 import AccountInfo from "./AccountInfo";
 
 //creating mock server
+const baseUrl = process.env.REACT_APP_BASE_URL;
 const server = setupServer(
-  rest.get("/users/get-user-info", (req, res, ctx) =>
+  rest.get(baseUrl + "/users/get-user-info", (req, res, ctx) =>
     res(
       ctx.status(200),
       ctx.json({
@@ -18,7 +19,9 @@ const server = setupServer(
       })
     )
   ),
-  rest.get("/users/check-login", (req, res, ctx) => res(ctx.status(200)))
+  rest.get(baseUrl + "/users/check-login", (req, res, ctx) =>
+    res(ctx.status(200))
+  )
 );
 
 beforeAll(() => {
