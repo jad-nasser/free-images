@@ -1,6 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
+import AccountSettings from "./components/account-settings/AccountSettings";
 
 function App() {
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
@@ -8,7 +9,10 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route></Route>
+        <Route path="/"></Route>
+        <Route path="/user">
+          <Route path="account-settings" element={<AccountSettings />}></Route>
+        </Route>
       </Routes>
     </div>
   );
