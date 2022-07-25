@@ -44,9 +44,9 @@ const EditPassword = () => {
   ) => {
     if (e.target.validity.valid) setConfirmPasswordInvalidFeedback("");
     else if (e.target.validity.valueMissing)
-      setPasswordInvalidFeedback("Confirm your new password");
+      setConfirmPasswordInvalidFeedback("Confirm your new password");
     else if (e.target.validity.patternMismatch)
-      setPasswordInvalidFeedback(
+      setConfirmPasswordInvalidFeedback(
         "Password confirmation should match the password"
       );
   };
