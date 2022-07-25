@@ -83,7 +83,7 @@ const SignUp = () => {
           message: "Your account successfully created",
         });
         navigate("/sign-in");
-      } catch (error) {
+      } catch (error: any) {
         setNotificationInfo({
           bootstrapColor: "danger",
           message: error.response.data,

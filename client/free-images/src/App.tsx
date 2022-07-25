@@ -11,6 +11,7 @@ import EditName from "./components/edit-name/EditName";
 import EditPassword from "./components/edit-password/EditPassword";
 import DeactivateAccount from "./components/deactivate-account/DeactivateAccount";
 import SignIn from "./components/sign-in/SignIn";
+import SignUp from "./components/sign-up/SignUp";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -31,6 +32,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Default />}>
           <Route path="sign-in" element={<SignIn />} />
+          <Route path="sign-up" element={<SignUp />} />
         </Route>
         <Route path="/user" element={<User />}>
           <Route path="account-settings" element={<AccountSettingsRoute />}>
