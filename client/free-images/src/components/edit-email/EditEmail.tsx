@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import checkLogin from "../../functions/checkLogin";
 import axios from "axios";
@@ -46,7 +45,7 @@ const EditEmail = () => {
           bootstrapColor: "success",
           message: "Your email address successfully changed",
         });
-      } catch (error) {
+      } catch (error: any) {
         setNotificationInfo({
           bootstrapColor: "danger",
           message: error.response.data,

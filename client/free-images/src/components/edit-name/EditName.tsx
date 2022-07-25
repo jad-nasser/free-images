@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import checkLogin from "../../functions/checkLogin";
 import axios from "axios";
@@ -31,16 +30,13 @@ const EditName = () => {
         lastName: lastNameInput.current?.value,
       };
       try {
-        await axios.patch(
-          process.env.REACT_APP_BASE_URL + "/users/update-user",
-          { updateInfo }
-        );
+        await axios.patch("/users/update-user", { updateInfo });
         //after successfull update
         setNotificationInfo({
           bootstrapColor: "success",
           message: "Your name successfully changed",
         });
-      } catch (error) {
+      } catch (error: any) {
         setNotificationInfo({
           bootstrapColor: "danger",
           message: error.response.data,
