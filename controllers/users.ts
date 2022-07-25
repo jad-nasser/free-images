@@ -243,6 +243,12 @@ const deleteUser = async (req: Request, res: Response): Promise<Response> => {
     await imagesDBController.deleteAllUserImages((req as any).user.id);
     //deleting the user from the database
     await usersDBController.deleteUser((req as any).user.id);
+    //delete the token cookie
+    res.cookie("token", "", {
+      secure: false,
+      httpOnly: true,
+      expires: new Date(Date.now() - 1000),
+    });
   } catch (error) {
     return res.status(500).json(error);
   }
