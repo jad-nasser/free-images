@@ -6,6 +6,7 @@ import AccountInfo from "./components/account-info/AccountInfo";
 import AccountSettingsRoute from "./components/route-components/AccountSettingsRoute";
 import Default from "./components/route-components/Default";
 import User from "./components/route-components/User";
+import EditEmail from "./components/edit-email/EditEmail";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -28,6 +29,7 @@ function App() {
         <Route path="/user" element={<User />}>
           <Route path="account-settings" element={<AccountSettingsRoute />}>
             <Route path="account-info" element={<AccountInfo />} />
+            <Route path="change-email" element={<EditEmail />} />
           </Route>
         </Route>
       </Routes>
