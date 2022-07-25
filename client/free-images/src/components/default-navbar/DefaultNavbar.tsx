@@ -46,7 +46,8 @@ const DefaultNavbar = () => {
       let params: Params = {
         sortBy: selectedSort.current,
       };
-      if (searchInput.current.value) params.name = searchInput.current.value;
+      if (searchInput.current.value !== "")
+        params.name = searchInput.current.value;
       navigate({
         pathname: "/home",
         search: createSearchParams(params).toString(),
@@ -74,7 +75,8 @@ const DefaultNavbar = () => {
       let params: Params = {
         sortBy: selectedSort.current,
       };
-      if (searchInput.current.value) params.name = searchInput.current.value;
+      if (searchInput.current.value !== "")
+        params.name = searchInput.current.value;
       navigate({
         pathname: "/home",
         search: createSearchParams(params).toString(),
