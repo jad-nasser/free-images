@@ -10,6 +10,7 @@ import EditEmail from "./components/edit-email/EditEmail";
 import EditName from "./components/edit-name/EditName";
 import EditPassword from "./components/edit-password/EditPassword";
 import DeactivateAccount from "./components/deactivate-account/DeactivateAccount";
+import SignIn from "./components/sign-in/SignIn";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -28,7 +29,9 @@ function App() {
   return (
     <div className={"app bg-" + themeMode + " text-" + textColor}>
       <Routes>
-        <Route path="/" element={<Default />}></Route>
+        <Route path="/" element={<Default />}>
+          <Route path="sign-in" element={<SignIn />} />
+        </Route>
         <Route path="/user" element={<User />}>
           <Route path="account-settings" element={<AccountSettingsRoute />}>
             <Route path="account-info" element={<AccountInfo />} />
