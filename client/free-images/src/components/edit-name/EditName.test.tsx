@@ -8,10 +8,16 @@ import EditName from "./EditName";
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
 
+const baseUrl = process.env.REACT_APP_BASE_URL;
+
 //creating mock server
 const server = setupServer(
-  rest.get("/users/check-login", (req, res, ctx) => res(ctx.status(200))),
-  rest.patch("/users/update-user", (req, res, ctx) => res(ctx.status(200)))
+  rest.get(baseUrl + "/users/check-login", (req, res, ctx) =>
+    res(ctx.status(200))
+  ),
+  rest.patch(baseUrl + "/users/update-user", (req, res, ctx) =>
+    res(ctx.status(200))
+  )
 );
 
 beforeAll(() => {
@@ -26,9 +32,9 @@ afterAll(() => {
 
 describe("Testing EditName component", () => {
   //testing with empty inputs
-  test("Testing with empty inputs", () => {
+  test("Testing with empty inputs", async () => {
     const { user } = testRender(<EditName />);
-    user.click(screen.getByRole("button", { name: "Change Name" }));
+    await user.click(screen.getByRole("button", { name: "Change Name" }));
     expect(screen.getByText("Enter your new first name")).toBeVisible();
     expect(screen.getByText("Enter your new last name")).toBeVisible();
   });
@@ -37,24 +43,24 @@ describe("Testing EditName component", () => {
   test("Testing when the server sends an error it should shows the error", async () => {
     //mocking the server to send an error
     server.use(
-      rest.patch("/users/update-user", (req, res, ctx) =>
+      rest.patch(baseUrl + "/users/update-user", (req, res, ctx) =>
         res(ctx.status(404), ctx.json("Server error"))
       )
     );
 
     const { user } = testRender(<EditName />);
-    user.type(screen.getByPlaceholderText("New First Name"), "Test");
-    user.type(screen.getByPlaceholderText("New Last Name"), "Test");
-    user.click(screen.getByRole("button", { name: "Change Name" }));
+    await user.type(screen.getByPlaceholderText("New First Name"), "Test");
+    await user.type(screen.getByPlaceholderText("New Last Name"), "Test");
+    await user.click(screen.getByRole("button", { name: "Change Name" }));
     expect(await screen.findByText("Server error")).toBeVisible();
   });
 
   //testing when everything is done correctly
   test("Testing when everything is done correctly it should shows 'Your name successfully changed'", async () => {
     const { user } = testRender(<EditName />);
-    user.type(screen.getByPlaceholderText("New First Name"), "Test");
-    user.type(screen.getByPlaceholderText("New Last Name"), "Test");
-    user.click(screen.getByRole("button", { name: "Change Name" }));
+    await user.type(screen.getByPlaceholderText("New First Name"), "Test");
+    await user.type(screen.getByPlaceholderText("New Last Name"), "Test");
+    await user.click(screen.getByRole("button", { name: "Change Name" }));
     expect(
       await screen.findByText("Your name successfully changed")
     ).toBeVisible();
