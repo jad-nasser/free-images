@@ -12,6 +12,8 @@ import EditPassword from "./components/edit-password/EditPassword";
 import DeactivateAccount from "./components/deactivate-account/DeactivateAccount";
 import SignIn from "./components/sign-in/SignIn";
 import SignUp from "./components/sign-up/SignUp";
+import Footer from "./components/footer/Footer";
+import AddImage from "./components/add-image/AddImage";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -28,23 +30,30 @@ function App() {
   let textColor = "dark";
   if (themeMode === "dark") textColor = "light";
   return (
-    <div className={"app bg-" + themeMode + " text-" + textColor}>
-      <Routes>
-        <Route path="/" element={<Default />}>
-          <Route path="sign-in" element={<SignIn />} />
-          <Route path="sign-up" element={<SignUp />} />
-        </Route>
-        <Route path="/user" element={<User />}>
-          <Route path="account-settings" element={<AccountSettingsRoute />}>
-            <Route path="account-info" element={<AccountInfo />} />
-            <Route path="change-email" element={<EditEmail />} />
-            <Route path="change-name" element={<EditName />} />
-            <Route path="change-password" element={<EditPassword />} />
-            <Route path="deactivate-account" element={<DeactivateAccount />} />
+    <>
+      <div className={"app bg-" + themeMode + " text-" + textColor}>
+        <Routes>
+          <Route path="/" element={<Default />}>
+            <Route path="sign-in" element={<SignIn />} />
+            <Route path="sign-up" element={<SignUp />} />
           </Route>
-        </Route>
-      </Routes>
-    </div>
+          <Route path="/user" element={<User />}>
+            <Route path="add-image" element={<AddImage />} />
+            <Route path="account-settings" element={<AccountSettingsRoute />}>
+              <Route path="account-info" element={<AccountInfo />} />
+              <Route path="change-email" element={<EditEmail />} />
+              <Route path="change-name" element={<EditName />} />
+              <Route path="change-password" element={<EditPassword />} />
+              <Route
+                path="deactivate-account"
+                element={<DeactivateAccount />}
+              />
+            </Route>
+          </Route>
+        </Routes>
+      </div>
+      <Footer />
+    </>
   );
 }
 

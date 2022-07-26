@@ -51,7 +51,7 @@ const SignIn = () => {
       <h3 className="text-center mb-4">Sign In</h3>
       <div className="mb-3">
         <label className="form-label" htmlFor="email-input">
-          Email address
+          Email
         </label>
         <input
           type="email"
