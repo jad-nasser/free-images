@@ -16,6 +16,7 @@ import Footer from "./components/footer/Footer";
 import AddImage from "./components/add-image/AddImage";
 import ImageItems from "./components/image-items/ImageItems";
 import ViewImage from "./components/view-image/ViewImage";
+import EditImage from "./components/edit-image/EditImage";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -44,6 +45,7 @@ function App() {
           <Route path="/user" element={<User />}>
             <Route path="home" element={<ImageItems isLoggedIn={true} />} />
             <Route path="add-image" element={<AddImage />} />
+            <Route path="edit-image" element={<EditImage />} />
             <Route path="account-settings" element={<AccountSettingsRoute />}>
               <Route path="account-info" element={<AccountInfo />} />
               <Route path="change-email" element={<EditEmail />} />
