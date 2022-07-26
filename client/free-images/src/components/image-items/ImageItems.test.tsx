@@ -8,6 +8,8 @@ import ImageItems from "./ImageItems";
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
 
+const baseUrl = process.env.REACT_APP_BASE_URL;
+
 //mock images
 const image1 = {
   name: "test-image1",
@@ -24,8 +26,10 @@ const image2 = {
 
 //creating mock server
 const server = setupServer(
-  rest.get("/users/check-login", (req, res, ctx) => res(ctx.status(404))),
-  rest.get("/images/get-images", (req, res, ctx) =>
+  rest.get(baseUrl + "/users/check-login", (req, res, ctx) =>
+    res(ctx.status(404))
+  ),
+  rest.get(baseUrl + "/images/get-images", (req, res, ctx) =>
     res(ctx.status(200), ctx.json({ images: [image1, image2] }))
   )
 );
@@ -42,7 +46,7 @@ afterAll(() => {
 
 describe("Testing ImageItems component", () => {
   test("Should shows the two images", async () => {
-    testRender(<ImageItems />);
+    testRender(<ImageItems isLoggedIn={false} />);
     expect(await screen.findByText("test-image1")).toBeVisible();
     expect(screen.getByText("test-image2")).toBeVisible();
   });

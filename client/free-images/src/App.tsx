@@ -14,6 +14,7 @@ import SignIn from "./components/sign-in/SignIn";
 import SignUp from "./components/sign-up/SignUp";
 import Footer from "./components/footer/Footer";
 import AddImage from "./components/add-image/AddImage";
+import ImageItems from "./components/image-items/ImageItems";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -36,8 +37,10 @@ function App() {
           <Route path="/" element={<Default />}>
             <Route path="sign-in" element={<SignIn />} />
             <Route path="sign-up" element={<SignUp />} />
+            <Route path="home" element={<ImageItems isLoggedIn={false} />} />
           </Route>
           <Route path="/user" element={<User />}>
+            <Route path="home" element={<ImageItems isLoggedIn={true} />} />
             <Route path="add-image" element={<AddImage />} />
             <Route path="account-settings" element={<AccountSettingsRoute />}>
               <Route path="account-info" element={<AccountInfo />} />
