@@ -168,6 +168,11 @@ const DefaultNavbar = () => {
                 Sign In
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/sign-up">
+                Sign Up
+              </Link>
+            </li>
           </ul>
 
           <ul className="navbar-nav me-2">

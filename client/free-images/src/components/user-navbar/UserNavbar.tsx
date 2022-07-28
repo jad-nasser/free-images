@@ -145,6 +145,11 @@ const UserNavbar = () => {
               </div>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to="/user/add-image">
+                Add Image
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link
                 className="nav-link"
                 to="/user/account-settings/account-info"

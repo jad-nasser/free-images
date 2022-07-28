@@ -31,13 +31,14 @@ const ImageItem = (props: { image: IImage; isLoggedIn: boolean }) => {
   };
   return (
     <div
-      className="card text-center m-2"
-      style={{ width: "20em", cursor: "pointer" }}
+      className="card text-center"
+      style={{ cursor: "pointer" }}
       onClick={handleImageItemClick}
     >
       <img
-        src={props.image.filePath}
+        src={process.env.REACT_APP_BASE_URL + "/" + props.image.filePath}
         className="card-img-top"
+        style={{ objectFit: "cover", height: "15em" }}
         alt={props.image.name}
       />
       <div className="card-body">

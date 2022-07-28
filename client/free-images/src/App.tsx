@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import AccountInfo from "./components/account-info/AccountInfo";
@@ -36,6 +36,7 @@ function App() {
     <>
       <div className={"app bg-" + themeMode + " text-" + textColor}>
         <Routes>
+          <Route path="*" element={<Navigate to="/home" />} />
           <Route path="/" element={<Default />}>
             <Route path="home" element={<ImageItems isLoggedIn={false} />} />
             <Route path="sign-in" element={<SignIn />} />

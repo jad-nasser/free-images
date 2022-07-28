@@ -22,6 +22,7 @@ This website provides a free images. The signed in users can add, edit, and dele
 
 - **Node js**
 - **TypeScript**
+- **ts-node**: used to execute typescript files
 - **Express js**
 - **Mongo DB**
 - **nodemon**: used to watch for changes and automatically restart the server
@@ -37,12 +38,12 @@ This website provides a free images. The signed in users can add, edit, and dele
 - **Mocha**: test framework.
 - **chai**: for tests assertions.
 - **sinon**: used for mocking while unit testing.
-- **proxyquire**: used for mocking libraries while unit testing.
 - **supertest**: used for integration testing.
 
 ### **Client Side:**
 
 - **React**
+- **TypeScript**
 - **Redux**
 - **react-redux**
 - **Bootstrap**
@@ -51,6 +52,7 @@ This website provides a free images. The signed in users can add, edit, and dele
 - **number-abbreviate**: used to abbreviate large numbers of image's "number_of_downloads" attribute for better viewing experience.
 - **dotenv**
 - **React Router**: for managing routing through pages in the react app.
+- **js-file-download**: for downloading an image when the server clicks the download button.
 - **jest**: test framework.
 - **React Testing Library**: used for unit testing.
 - **Mock Service Worker**: used to mock server responses in unit testing.

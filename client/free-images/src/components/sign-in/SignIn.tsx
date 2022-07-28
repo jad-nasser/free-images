@@ -17,7 +17,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   //checking if the user is in the correct page type
   useEffect(() => {
-    checkLogin("user", navigate);
+    checkLogin("default", navigate);
   }, [navigate]);
   //handling sign in click
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

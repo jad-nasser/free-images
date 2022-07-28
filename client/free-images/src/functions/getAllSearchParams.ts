@@ -9,7 +9,8 @@ interface Params {
 const getAllSearchParams = (searchParams: URLSearchParams): Params => {
   let allParams: Params = {};
   searchParams.forEach((value, key, parent) => {
-    allParams[key] = value;
+    if (key === "_id") allParams["id"] = value;
+    else allParams[key] = value;
   });
   return allParams;
 };

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import numAbb from "number-abbreviate";
 import { ObjectId } from "mongoose";
+import fileDownload from "js-file-download";
 
 interface IImage {
   name: string;
@@ -42,6 +43,13 @@ const ViewImage = () => {
       await axios.get("/images/download-image", {
         params: { id: image!._id },
       });
+      const response = await axios.get(
+        process.env.REACT_APP_BASE_URL + "/" + image?.filePath,
+        {
+          responseType: "blob",
+        }
+      );
+      fileDownload(response.data, image!.filePath.replace("uploads\\", ""));
     } catch (error: any) {
       console.log(error);
     }
@@ -62,7 +70,7 @@ const ViewImage = () => {
             <div className="carousel-inner rounded">
               <div className="carousel-item active">
                 <img
-                  src={image.filePath}
+                  src={process.env.REACT_APP_BASE_URL + "/" + image.filePath}
                   className="d-block w-100"
                   alt={image.name}
                 />

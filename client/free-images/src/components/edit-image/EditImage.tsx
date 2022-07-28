@@ -169,7 +169,7 @@ const EditImage = () => {
               <div className="carousel-inner rounded">
                 <div className="carousel-item active">
                   <img
-                    src={image.filePath}
+                    src={process.env.REACT_APP_BASE_URL + "/" + image.filePath}
                     className="d-block w-100"
                     alt={image.name}
                   />

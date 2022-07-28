@@ -56,7 +56,10 @@ const uploadImage = (req: Request, res: Response, next: NextFunction) => {
 
 //--------------------------------------------------------------------------------------
 
-const downloadImage = async (req: Request, res: Response) => {
+const downloadImage = async (
+  req: Request,
+  res: Response
+): Promise<Response | void> => {
   //checking if the image id exists in the request
   if (!req.query.id) return res.status(404).send("Image id not found");
   let imageId = req.query.id as string;
@@ -68,7 +71,6 @@ const downloadImage = async (req: Request, res: Response) => {
     await imagesDBController.incrementImage(imageId);
     let foundImage = foundImages[0];
     res.download(foundImage.filePath);
-    return true;
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -107,7 +109,8 @@ const createImage = async (req: Request, res: Response): Promise<Response> => {
 const getImages = async (req: Request, res: Response): Promise<Response> => {
   let searchInfo: ISearchInfo = {};
   let sortBy: string | undefined;
-  if (req.query.name) searchInfo.name = new RegExp(req.query.name as string);
+  if (req.query.name)
+    searchInfo.name = new RegExp(req.query.name as string, "i");
   if ((req as any).user) searchInfo.userId = (req as any).user.id;
   if (req.query.id) searchInfo._id = req.query.id as string;
   if (req.query.sortBy) sortBy = req.query.sortBy as string;

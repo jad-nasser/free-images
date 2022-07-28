@@ -46,11 +46,15 @@ const ImageItems = (props: Props) => {
   }, [navigate, props.isLoggedIn, searchParams]);
   //the component
   return (
-    <div className="d-flex flex-wrap justify-content-center">
-      {images &&
-        images.map((image, index) => (
-          <ImageItem key={index} isLoggedIn={props.isLoggedIn} image={image} />
-        ))}
+    <div className="container-fluid py-2">
+      <div className="row g-2 row-cols-auto">
+        {images &&
+          images.map((image, index) => (
+            <div className="col flex-grow-1" key={index}>
+              <ImageItem isLoggedIn={props.isLoggedIn} image={image} />
+            </div>
+          ))}
+      </div>
     </div>
   );
 };
